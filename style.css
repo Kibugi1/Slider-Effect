@@ -8,7 +8,7 @@ body{
 }
 a{
     text-decoration: none;
-    color: #eee;
+    /* color: #eee;*/
 }
 header{
     width: 1140px;
@@ -22,6 +22,7 @@ header{
 }
 header a{
     margin-right: 40px;
+    color: #eee;
 }
 /* carousel */
 .carousel{
@@ -32,6 +33,8 @@ header a{
     position: relative;
 }
 .carousel .list .item{
+    width: 100%;
+    height: 100%;
     position: absolute;
     inset: 0 0 0 0;
 }
@@ -50,7 +53,7 @@ header a{
     padding-right: 30%;
     box-sizing: border-box;
     color: #fff;
-    text-shadow: 0 5px 10px #004;
+    text-shadow: 0 5px 10px #0004;
 }
 .carousel .list .item .content .author{
     font-weight: bold;
@@ -111,15 +114,20 @@ header a{
     bottom: 10px;
     left: 10px;
     right: 10px;
+    color: #fff;
 }
 .thumbnail .item .content .title{
     font-weight: 500;
+}
+.thumbnail .item .content .description{
+    font-weight: 300;
 }
 /* arrows */
 .arrows{
     position: absolute;
     top: 80%;
     right: 52%;
+    z-index: 100;
     width: 300px;
     max-width: 30%;
     display: flex;
@@ -133,19 +141,21 @@ header a{
     background-color: #eee4;
     border: none;
     font-family: monospace;
-    color: #eee;
+    color: #fff;
     font-weight: bold;
-    font-size: large;
     transition: .5s;
-    z-index: 100;
+    /*font-size: large;
+    z-index: 100;*/
 }
 .arrows button:hover{
-    background-color: #eee;
-    color: #555;
+    background-color: #fff;
+    color: #000;
 }
+/*animation*/
 .carousel .list .item:nth-child(1){
     z-index: 1;
 }
+/* animation text in first item */
 .carousel .list .item:nth-child(1) .author,
 .carousel .list .item:nth-child(1) .title,
 .carousel .list .item:nth-child(1) .topic,
@@ -154,25 +164,25 @@ header a{
     transform: translateY(50px);
     filter: blur(20px);
     opacity: 0;
-    animation: showContent 0.5s 1s linear forwards;
+    animation: showContent .5s 1s linear forwards;
 }
 @keyframes showContent{
     to{
         opacity: 1;
-        filter: blur(0);
-        transform: translateY(0);
+        filter: blur(0px);
+        transform: translateY(0px);
     }
 }
-.carousel .list .item:nth-child(1) .title{
+.carousel .list .item:nth-child(1) .content .title{
     animation-delay: 1.2s
 }
-.carousel .list .item:nth-child(1) .topic{
+.carousel .list .item:nth-child(1) .content .topic{
     animation-delay: 1.4s
 }
-.carousel .list .item:nth-child(1) .des{
+.carousel .list .item:nth-child(1) .content .des{
     animation-delay: 1.6s
 }
-.carousel .list .item:nth-child(1) .buttons{
+.carousel .list .item:nth-child(1) .content .buttons{
     animation-delay: 1.8s
 }
 /* effect next click */
@@ -182,8 +192,8 @@ header a{
     position: absolute;
     left: 50%;
     bottom: 50px;
-    border-radius: 20px;
-    animation: showImage 0.5s linear 1 forwards;
+    border-radius: 30px;
+    animation: showImage .5s linear 1 forwards;
 }
 @keyframes showImage{
     to{
@@ -194,57 +204,92 @@ header a{
         border-radius: 0;
     }
 }
-.carousel .thumbnail .item:nth-child(1){
+.carousel.next .thumbnail .item:nth-last-child(1){
     width: 0;
     overflow: hidden;
     animation: showThumbnail .5s 1s linear forwards;
 }
+.carousel.prev .list .item img{
+    z-index: 100;
+}
 @keyframes showThumbnail{
-    to{
-        width: 150px;
+    from{
+        width: 0;
+        opacity: 0;
     }
 }
-.carousel .thumbnail{
-    transform: translateX(150px);
-    animation: transformThumbnail .5s 1s linear forwards;
+.carousel.next .thumbnail{
+    animation: effectNext .5s linear 1 forwards;
 }
-@keyframes transformThumbnail{
-    to{
-        transform: translateX(0);
+
+@keyframes effectNext{
+    from{
+        transform: translateX(150px);
     }
 }
-/* effect prev click */
-.carousel .list .item:nth-child(2){
-    z-index: 2
+
+/* running time */
+
+.carousel .time{
+    position: absolute;
+    z-index: 1000;
+    width: 0%;
+    height: 3px;
+    background-color: #f1683a;
+    left: 0;
+    top: 0;
 }
-.carousel .list .item:nth-child(2) img{
+
+.carousel.next .time,
+.carousel.prev .time{
+    animation: runningTime 3s linear 1 forwards;
+}
+@keyframes runningTime{
+    from{ width: 100%}
+    to{width: 0}
+}
+
+
+/* prev click */
+
+.carousel.prev .list .item:nth-child(2){
+    z-index: 2;
+}
+
+.carousel.prev .list .item:nth-child(2) img{
+    animation: outFrame 0.5s linear 1 forwards;
     position: absolute;
     bottom: 0;
     left: 0;
-    animation: outImage 0.5s linear 1 forwards;
 }
-@keyframes outImage{
+@keyframes outFrame{
     to{
         width: 150px;
         height: 220px;
-        left: 50%;
         bottom: 50px;
+        left: 50%;
         border-radius: 20px;
     }
 }
-.carousel .thumbnail .item:nth-child(2){
-    width: 0;
+
+.carousel.prev .thumbnail .item:nth-child(1){
     overflow: hidden;
-    opacity: hidden;
-    animation: showThumbnail .5s 1s linear forwards;
+    opacity: 0;
+    animation: showThumbnail .5s linear 1 forwards;
 }
-.carousel .list .item:nth-child(2) .author,
-.carousel .list .item:nth-child(2) .title,
-.carousel .list .item:nth-child(2) .topic,
-.carousel .list .item:nth-child(2) .des,
-.carousel .list .item:nth-child(2) .buttons{
-    animation: contentOut 1.5s linear forwards;
+.carousel.next .arrows button,
+.carousel.prev .arrows button{
+    pointer-events: none;
 }
+.carousel.prev .list .item:nth-child(2) .content .author,
+.carousel.prev .list .item:nth-child(2) .content .title,
+.carousel.prev .list .item:nth-child(2) .content .topic,
+.carousel.prev .list .item:nth-child(2) .content .des,
+.carousel.prev .list .item:nth-child(2) .content .buttons
+{
+    animation: contentOut 1.5s linear 1 forwards!important;
+}
+
 @keyframes contentOut{
     to{
         transform: translateY(-150px);
@@ -252,33 +297,9 @@ header a{
         opacity: 0;
     }
 }
-.carousel .arrows button,
-.carousel .arrows button{
-    pointer-events: none;
-}
-/* time checks the running time of the animation */
-.time{
-    width: 0%;
-    height: 5px;
-    background-color: #f1683a;
-    position: absolute;
-    z-index: 100;
-    top: 0;
-    left: 0;
-}
-.carousel.next .time,
-.carousel.prev .time{
-    width: 100%;
-    animation: timeRunning 2s linear forwards;
-}
-@keyframes timeRunning{
-    to{
-        width: 0;
-    }
-}
-@media  screen and (max-width: 670px) {
+@media screen and (max-width: 678px) {
     .carousel .list .item .content{
-        padding-right: 0px;
+        padding-right: 0;
     }
     .carousel .list .item .content .title{
         font-size: 30px;
